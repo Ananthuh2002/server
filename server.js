@@ -119,6 +119,16 @@ app.post("/api/insert/selist",urlencodedparser,jsonparser,(req,res)=>{
     
 })
 
+// lsit the reporting person
+
+app.get("/api/list/report",(req,res)=>{
+
+    let view="select * from selectlist";
+    con.query(view,(err,data)=>{
+      res.send(data)
+    })
+
+})
 
 
 
