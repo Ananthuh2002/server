@@ -172,8 +172,59 @@ app.delete('/api/delete/:title',(req,res)=>{
     })
     
   
+// add task data
 
 
+app.post("/api/insert/tasklist",urlencodedparser,jsonparser,(req,res)=>{
+
+  
+    let name=req.body.name;
+    let cate=req.body.cate;
+   let pri=req.body.pri;
+    let des=req.body.des;
+     let end=req.body.end;
+    let start=req.body.start;
+
+ let qr="insert into tasklist values(?,?,?,?,?,?)";
+    con.query(qr,[name,cate,start,end,pri,des],(err,data)=>{
+        if(err){
+            // res.send({error:"fail"})
+            console.log(err);
+        }
+        else{
+    
+            console.log(data);
+        }
+       })
+    
+})
+
+// display the list
+
+app.get("/api/list/task",(req,res)=>{
+
+    let view="select * from tasklist";
+    con.query(view,(err,data)=>{
+      res.send(data)
+    })
+
+})
+
+// delete from list
+app.delete('/api/deletelist/:Taskname',(req,res)=>{
+    const name=req.params.Taskname
+    const qr="delete from tasklist where Taskname=?";
+
+    con.query(qr,name,(err,result)=>{
+        if(err){
+       console.log("fail");
+        }
+        else{
+    
+            console.log("sucess");
+       }
+       })
+    })
 
 
 app.listen(7000, function () {
