@@ -184,9 +184,10 @@ app.post("/api/insert/tasklist",urlencodedparser,jsonparser,(req,res)=>{
     let des=req.body.des;
      let end=req.body.end;
     let start=req.body.start;
+    let count=req.body.count;
 
- let qr="insert into tasklist values(?,?,?,?,?,?)";
-    con.query(qr,[name,cate,start,end,pri,des],(err,data)=>{
+ let qr="insert into tasklist values(?,?,?,?,?,?,?)";
+    con.query(qr,[name,cate,start,end,pri,des,count],(err,data)=>{
         if(err){
             // res.send({error:"fail"})
             console.log(err);
@@ -225,6 +226,25 @@ app.delete('/api/deletelist/:Taskname',(req,res)=>{
        }
        })
     })
+
+
+  //update ststus of task
+  app.patch("/api/taskupdate",urlencodedparser,jsonparser,(req,res)=>{
+    const Stats=req.body.status;
+  
+    const Taskname=req.body.Taskname;
+   
+    const qr="update tasklist set status=? where Taskname=?";
+    con.query(qr,[Stats,Taskname],(err,result)=>{
+    if(err){
+        res.send(err)
+    }
+    else{
+        res.send(result)
+    }
+       })
+})
+
 
 
 app.listen(7000, function () {
