@@ -60,10 +60,11 @@ app.post("/api/insert",urlencodedparser,jsonparser,(req,res)=>{
     let Fromtime=req.body.Fromtime;
     let Type=req.body.Type;
     let Description=req.body.Description;
+    let up=req.body.up;
     // let status=re.body.status;
 
-    let qr="insert into person values(?,?,?,?,?,?)";
-    con.query(qr,[title,find,Totime,Fromtime,Type,Description],(err,data)=>{
+    let qr="insert into person values(?,?,?,?,?,?,?)";
+    con.query(qr,[title,find,Totime,Fromtime,Type,Description,up],(err,data)=>{
         if(err){
             res.send({error:"fail"})
         }
@@ -245,7 +246,37 @@ app.delete('/api/deletelist/:Taskname',(req,res)=>{
        })
 })
 
+// approve the task
 
+app.patch("/api/stateupdate",urlencodedparser,jsonparser,(req,res)=>{
+    // const Stats=req.body.status;
+  const title=req.body.title;
+   
+    const qr="update person set status='APPROVED' where title=?";
+    con.query(qr,[title],(err,result)=>{
+    if(err){
+     console.log(err);
+    }
+    else{
+        res.send(result)
+    }
+       })
+})
+
+app.patch("/api/statereject",urlencodedparser,jsonparser,(req,res)=>{
+    // const Stats=req.body.status;
+  const title=req.body.title;
+   
+    const qr="update person set status='REJECTED' where title=?";
+    con.query(qr,[title],(err,result)=>{
+    if(err){
+     console.log(err);
+    }
+    else{
+        res.send(result)
+    }
+       })
+})
 
 app.listen(7000, function () {
     // console.log("server started");
